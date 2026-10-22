@@ -1,12 +1,13 @@
+import os
 import time
 import csv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from requests.exceptions import RequestException
 
-CLIENT_ID = 'YOUR_SPOTIFY_CLIENT_ID'
-CLIENT_SECRET = 'YOUR_SPOTIFY_CLIENT_SECRET'
-REDIRECT_URI = 'http://127.0.0.1:9090'
+CLIENT_ID = os.environ['SPOTIFY_CLIENT_ID']
+CLIENT_SECRET = os.environ['SPOTIFY_CLIENT_SECRET']
+REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI', 'http://127.0.0.1:9090')
 
 SCOPE = 'user-library-read playlist-read-private playlist-read-collaborative'
 
@@ -24,7 +25,6 @@ def safe_api_call(func, *args, **kwargs):
             print(f"\n[Внимание] Сетевой сбой Spotify API ({e}). Повтор {attempt + 1}/{max_retries} через 3 сек...")
             time.sleep(3)
 
-import os
 
 def main():
     print("Авторизация в Spotify...")
